@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+output
+.env
+
+# Data folder - ignore all except examples and templates
+data/*
+!data/cv_personal_data_example.json
+!data/cv_content_example.json
+!data/templates/
+.claude
+.ruff_cache
+.nicegui
+.mypy_cache
+scripts
+save_cv.py

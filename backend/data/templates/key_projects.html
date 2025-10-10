@@ -1,0 +1,12 @@
+<!-- Key Projects -->
+<section class="section">
+    <h2 class="section-title">{{ display_as }}</h2>
+    {% for project in content %}
+    <div class="project-item">
+        <div class="project-name">{{ project.name }}{% if project.period %} | {{ project.period }}{% endif %} <span class="company-info">| {{ project.description }}</span></div>
+        {% if project.details %}
+        <div class="project-description">{{ project.details }} <span class="company-info">| Skills: {{ project.technologies | join(', ') }}.</span></div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>

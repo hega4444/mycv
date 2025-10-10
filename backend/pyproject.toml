@@ -1,0 +1,25 @@
+[project]
+name = "mycv"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jinja2>=3.1.0",
+    "weasyprint>=61.0",
+    "pathlib>=1.0.1",
+    "pydantic[email]>=2.11.10",
+    "pydantic-ai>=1.0.15",
+    "python-dotenv>=1.1.1",
+    "pymongo>=4.15.2",
+    "motor>=3.7.1",
+    "nicegui>=3.0.3",
+    "bcrypt>=5.0.0",
+    "cryptography>=46.0.2",
+    "pydantic-ai-slim[groq]>=1.0.15",
+    "pyjwt>=2.10.1",
+]
+
+
+[tool.mypy]
+mypy_path = "src"

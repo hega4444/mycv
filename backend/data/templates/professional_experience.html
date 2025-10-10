@@ -1,0 +1,19 @@
+<!-- Professional Experience -->
+<section class="section">
+    <h2 class="section-title">{{ display_as }}</h2>
+    {% for job in content %}
+    <div class="experience-item">
+        <div class="job-header">
+            <div class="job-title">{{ job.job_title }} | {{ job.company }} | {{ job.start_date }} - {{ job.end_date }} <span class="company-info">| {{ job.location }}</span></div>
+        </div>
+        <ul class="achievements">
+            {% for achievement in job.achievements %}
+            <li>• {{ achievement }}.</li>
+            {% endfor %}
+        </ul>
+        {% if job.stack %}
+        <div class="project-technologies"><strong>Stack:</strong> {{ job.stack }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: mycv-dashboard
+    runtime: python
+    plan: free
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run python -m src.app.main
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: MONGODB_URI
+        sync: false  # Set in Render dashboard
+      - key: MONGODB_DATABASE
+        value: mycv
+      - key: APP_SECRET_KEY
+        sync: false  # Set in Render dashboard - generate random
+      - key: STORAGE_SECRET
+        sync: false  # Set in Render dashboard - generate random
+      - key: GOOGLE_API_KEY
+        sync: false  # Optional: set in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false  # Optional: set in Render dashboard
+    healthCheckPath: /

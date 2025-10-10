@@ -1,0 +1,15 @@
+<!-- Certifications -->
+{% if content %}
+<section class="section">
+    <h2 class="section-title">{{ display_as }}</h2>
+    {% for course in content %}
+    <div class="certification-item">
+        <span class="cert-name">{{ course.name }}</span>
+        <span class="cert-details"> | {{ course.provider }} | {{ course.location }} | {{ course.year }}</span>
+        {% if course.description %}
+        <div class="project-description">{{ course.description }}.</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>
+{% endif %}

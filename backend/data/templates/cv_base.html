@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ personal_info.name }} - CV</title>
+    <!-- Generated at: {{ timestamp }} -->
+    <style>
+        @page {
+            size: A4;
+            margin: 1.2cm 2cm 2cm 2cm;
+            @bottom-center {
+                content: counter(page) " / " counter(pages);
+                font-size: 10px;
+                color: #666;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333;
+            background: #fafafa;
+            min-height: 100vh;
+        }
+
+        .cv-container {
+            width: 240mm;
+            margin: 0 auto;
+            background: white;
+            padding: 20px 35px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header Section */
+        .header {
+            text-align: left;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2c3e50;
+            page-break-inside: avoid;
+        }
+
+        .name {
+            font-size: 30px;
+            font-weight: 900;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: normal;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            font-style: bold;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 3px 15px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .contact-item {
+            white-space: nowrap;
+        }
+
+        /* Section Headers */
+        .section {
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #39546e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        /* Professional Summary */
+        .summary {
+            text-align: justify;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* Core Competencies */
+        .competencies {
+            margin-bottom: 10px;
+        }
+
+        .skills-category {
+            margin-bottom: 3px;
+        }
+
+        .skills-category-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #34495e;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px 8px;
+        }
+
+        .skill-item {
+            background: #ecf0f1;
+            padding: 3px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        /* Experience Section */
+        .experience-item {
+            margin-bottom: 8px;
+        }
+
+        .job-header {
+            margin-bottom: 3px;
+        }
+
+        .job-title {
+            font-weight: bold;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+
+        .company-info {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 2px;
+        }
+
+        .achievements {
+            list-style: none;
+            margin-top: 3px;
+        }
+
+        .achievements li {
+            padding-left: 0px;
+            margin-bottom: 2px;
+            line-height: 1.4;
+        }
+
+        /* Education Section */
+        .education-item {
+            margin-bottom: 6px;
+        }
+
+        .degree {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .institution {
+            color: #7f8c8d;
+            font-size: 11px;
+        }
+
+        /* Certifications */
+        .certification-item {
+            margin-bottom: 3px;
+        }
+
+        .cert-name {
+            font-weight: bold;
+        }
+
+        .cert-details {
+            color: #7f8c8d;
+            font-size: 11px;
+        }
+
+        /* Projects */
+        .project-item {
+            margin-bottom: 8px;
+        }
+
+        .project-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+
+        .project-technologies {
+            font-size: 11px;
+            color: #064c7a;
+            margin-bottom: 3px;
+        }
+
+        .project-description {
+            margin-bottom: 3px;
+        }
+
+        /* Additional Info */
+        .additional-info {
+            margin-top: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        /* Page break utilities */
+        .page-break {
+            page-break-before: always;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        /* Print optimizations */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- Header -->
+        {{ header }}
+
+        <!-- Sections -->
+        {{ sections }}
+    </div>
+</body>
+</html>

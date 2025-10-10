@@ -1,0 +1,14 @@
+{
+  // Your basic contact information
+  "personal_info": {
+    "name": "John Doe",                              // Your full name
+    "title": "Software Engineer || Full Stack Dev",  // Professional title/headline
+    "location": "123 Main St, 12345, City, Country", // Full address
+    "phone": "+1234567890",                          // Phone number with country code
+    "email": "john.doe@example.com",                 // Professional email
+    "linkedin": "linkedin.com/in/johndoe/",          // LinkedIn profile URL (without https://)
+    "github": "github.com/johndoe",                  // GitHub profile URL (without https://)
+    "nationality": "American",                       // Your nationality
+    "portfolio": "johndoe.dev"                       // Portfolio website (optional, can be null)
+  }
+}

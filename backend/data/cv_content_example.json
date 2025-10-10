@@ -1,0 +1,117 @@
+{
+  // Brief professional summary highlighting your expertise and key achievements
+  "professional_summary": "Experienced Software Engineer with 5+ years building scalable web applications. Expert in Python, JavaScript, and cloud technologies. Proven track record of delivering high-impact features that improved user engagement by 40% and reduced system latency by 60%.",
+
+  // Your technical skills organized by category
+  "core_competencies": {
+    "technical_skills": [
+      "Python",           // Programming languages
+      "JavaScript",
+      "TypeScript",
+      "React",            // Frontend frameworks
+      "Next.js",
+      "FastAPI",          // Backend frameworks
+      "Django",
+      "PostgreSQL",       // Databases
+      "MongoDB",
+      "Docker",           // DevOps & Cloud
+      "Kubernetes",
+      "AWS",
+      "Azure"
+      // Add all relevant technologies you work with
+    ]
+  },
+
+  // Your work experience in reverse chronological order (most recent first)
+  "professional_experience": [
+    {
+      "job_title": "Senior Software Engineer",           // Your role
+      "company": "Tech Company Inc.",                    // Company name
+      "location": "San Francisco, CA",                   // Job location or "Remote"
+      "start_date": "2022-01",                           // Format: YYYY-MM
+      "end_date": "Present",                             // Use "Present" for current role
+      "stack": "Python, FastAPI, React, PostgreSQL, AWS", // Key technologies used
+      "achievements": [
+        // Use STAR format: Situation, Task, Action, Result
+        // Focus on measurable impact: numbers, percentages, time saved
+        "Led development of microservices architecture serving 100K+ daily users, improving system reliability from 95% to 99.9%",
+        "Architected real-time data pipeline processing 50M events/day, reducing data latency by 70%",
+        "Mentored team of 5 junior engineers, establishing code review practices that decreased bug reports by 40%"
+      ]
+    },
+    {
+      "job_title": "Software Engineer",
+      "company": "StartupXYZ",
+      "location": "Remote",
+      "start_date": "2019-06",
+      "end_date": "2021-12",
+      "stack": "Node.js, React, MongoDB, Docker",
+      "achievements": [
+        "Built REST API serving 10K+ requests/minute with 99.5% uptime",
+        "Implemented authentication system supporting OAuth and JWT, reducing login issues by 80%",
+        "Optimized database queries reducing average response time from 500ms to 50ms"
+      ]
+    }
+    // Add more positions as needed
+  ],
+
+  // Your formal education
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",  // Degree name
+      "institution": "University Name",                     // University/College name
+      "location": "City, Country",                          // Location
+      "graduation_year": "2019",                            // Year graduated (or expected)
+      "start_year": "2015",                                 // Year started (optional, can be null)
+      "details": "Focus on AI and Machine Learning"         // Additional info (optional, can be null)
+    }
+  ],
+
+  // Professional courses and certifications
+  "courses": [
+    {
+      "name": "AWS Certified Solutions Architect",   // Course/Certification name
+      "provider": "Amazon Web Services",             // Provider/Institution
+      "location": "Online",                          // Location or "Online"
+      "year": "2023",                                // Year completed
+      "description": "Comprehensive training in designing distributed systems on AWS with focus on scalability and security"
+    },
+    {
+      "name": "Machine Learning Specialization",
+      "provider": "Coursera",
+      "location": "Online",
+      "year": "2022",
+      "description": "Deep dive into supervised learning, neural networks, and deep learning algorithms"
+    }
+  ],
+
+  // Notable projects you've worked on (personal or professional)
+  "key_projects": [
+    {
+      "name": "E-Commerce Platform",                    // Project name
+      "period": "2023-01 – 2023-06",                    // Time period (YYYY-MM format)
+      "description": "Full-stack e-commerce solution",  // Brief description
+      "technologies": ["React", "Node.js", "PostgreSQL", "Stripe"], // Key technologies
+      "details": "Built end-to-end e-commerce platform with payment integration, order management, and admin dashboard. Achieved $100K+ in monthly transactions within first 3 months"
+    },
+    {
+      "name": "AI Chatbot Framework",
+      "period": "2022",
+      "description": "Open-source chatbot library",
+      "technologies": ["Python", "FastAPI", "OpenAI API", "Docker"],
+      "details": "Developed reusable chatbot framework supporting multiple LLM providers. Used by 500+ developers with 2K+ GitHub stars"
+    }
+  ],
+
+  // Languages you speak
+  "languages": [
+    {
+      "language": "English",              // Language name
+      "proficiency": "Native"             // Level: Native, C2, C1, B2, B1, A2, A1
+    },
+    {
+      "language": "Spanish",
+      "proficiency": "B2"                 // Use CEFR levels for non-native languages
+    }
+  ]
+}

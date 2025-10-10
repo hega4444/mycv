@@ -1,0 +1,13 @@
+<!-- Education -->
+<section class="section">
+    <h2 class="section-title">{{ display_as }}</h2>
+    {% for edu in content %}
+    <div class="education-item">
+        <div class="degree">{{ edu.degree }}</div>
+        <div class="institution">{{ edu.institution }} | {{ edu.location }} | {{ edu.start_year }} - {{ edu.graduation_year }}</div>
+        {% if edu.details %}
+        <div class="education-details">{{ edu.details }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</section>

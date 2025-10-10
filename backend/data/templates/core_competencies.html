@@ -1,0 +1,14 @@
+<!-- Core Competencies -->
+<section class="section competencies">
+    <h2 class="section-title">{{ display_as }}</h2>
+
+    <div class="skills-category">
+        <div class="skills-category-title">Technical Skills</div>
+        <div class="skills-list">
+            {% for skill in content.technical_skills %}
+            <span class="skill-item">{{ skill }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
