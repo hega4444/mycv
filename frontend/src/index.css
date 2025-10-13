@@ -11,3 +11,22 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Default button styling - lighter grey with bright text */
+.ant-btn-default {
+    background-color: #595959 !important;
+    color: #ffffff !important;
+    border-color: #595959 !important;
+}
+
+.ant-btn-default:hover {
+    background-color: #737373 !important;
+    color: #ffffff !important;
+    border-color: #737373 !important;
+}
+
+.ant-btn-default:disabled {
+    background-color: #d9d9d9 !important;
+    color: rgba(0, 0, 0, 0.25) !important;
+    border-color: #d9d9d9 !important;
+}
+

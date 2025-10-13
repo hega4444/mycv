@@ -1,18 +1,20 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Layout, Menu, Avatar, Dropdown, Typography, Modal } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Typography, Modal, Grid } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { Settings } from '../pages/Settings';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -23,6 +25,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const screens = useBreakpoint();
 
   const handleLogout = () => {
     logout();
@@ -49,15 +52,42 @@ export function AppLayout({ children }: AppLayoutProps) {
     },
   ];
 
+  const mobileMenuItems = [
+    ...navigation.map(item => ({
+      ...item,
+      onClick: item.onClick || (() => navigate(item.key)),
+    })),
+    {
+      key: 'logout',
+      label: 'Logout',
+      icon: <LogoutOutlined />,
+      onClick: handleLogout,
+    },
+  ];
+
   return (
     <Layout className="min-h-screen">
-      <Header style={{ background: '#fff', padding: '0 24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Title level={3} style={{ margin: 0, background: 'linear-gradient(90deg, #1677ff 0%, #69b1ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              myCV
-            </Title>
-            
+      <Header style={{
+        background: '#fff',
+        padding: screens.md ? '0 24px' : '0 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: 64,
+        lineHeight: 'normal'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }}>
+          <Title level={screens.md ? 3 : 4} style={{
+            margin: 0,
+            background: 'linear-gradient(90deg, #1677ff 0%, #69b1ff 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            whiteSpace: 'nowrap'
+          }}>
+            myCV
+          </Title>
+
+          {screens.md && (
             <Menu
               mode="horizontal"
               selectedKeys={[location.pathname]}
@@ -71,25 +101,43 @@ export function AppLayout({ children }: AppLayoutProps) {
                 }
               }}
               items={navigation}
-              style={{ marginLeft: 24 }}
+              style={{ marginLeft: 24, flex: 1, minWidth: 0, border: 'none' }}
             />
-          </div>
+          )}
+        </div>
 
-          <Dropdown
-            menu={{ items: userMenuItems }}
-            placement="bottomRight"
-            arrow
-          >
-            <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Avatar style={{ backgroundColor: '#1677ff' }}>
-                {user?.email?.charAt(0).toUpperCase()}
-              </Avatar>
-              <span>{user?.email}</span>
-            </div>
-          </Dropdown>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {!screens.md ? (
+            <Dropdown
+              menu={{
+                items: mobileMenuItems,
+                onClick: ({ key }) => {
+                  const item = mobileMenuItems.find(i => i.key === key);
+                  item?.onClick?.();
+                }
+              }}
+              placement="bottomRight"
+              arrow
+            >
+              <MenuOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+            </Dropdown>
+          ) : (
+            <Dropdown
+              menu={{ items: userMenuItems }}
+              placement="bottomRight"
+              arrow
+            >
+              <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Avatar style={{ backgroundColor: '#1677ff' }}>
+                  {user?.email?.charAt(0).toUpperCase()}
+                </Avatar>
+                {screens.lg && <span style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.email}</span>}
+              </div>
+            </Dropdown>
+          )}
         </div>
       </Header>
-      <Content style={{ padding: '24px' }}>
+      <Content style={{ padding: screens.md ? '24px' : '16px', minHeight: 'calc(100vh - 64px)', background: '#f5f5f5' }}>
         {children}
       </Content>
 
@@ -98,7 +146,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         open={settingsOpen}
         onCancel={() => setSettingsOpen(false)}
         footer={null}
-        width={700}
+        width={550}
       >
         <Settings />
       </Modal>

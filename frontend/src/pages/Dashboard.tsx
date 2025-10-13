@@ -12,14 +12,14 @@ import {
   Empty,
   Spin,
   List,
-  notification
+  notification,
+  Tooltip
 } from 'antd';
 import {
   PlusOutlined,
   DeleteOutlined,
   DownloadOutlined,
   EyeOutlined,
-  LinkOutlined
 } from '@ant-design/icons';
 import { cvApi } from '../services/api';
 import type { CV } from '../types';
@@ -35,7 +35,10 @@ interface CreateCVForm {
 export function Dashboard() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCV, setSelectedCV] = useState<CV | null>(null);
+  const [cvToDelete, setCvToDelete] = useState<CV | null>(null);
+  const [hoveredCV, setHoveredCV] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [form] = Form.useForm<CreateCVForm>();
 
@@ -66,12 +69,25 @@ export function Dashboard() {
     mutationFn: cvApi.deleteCV,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cvs'] });
+      setDeleteModalOpen(false);
+      setCvToDelete(null);
       notification.success({
         message: 'Success',
         description: 'CV deleted successfully',
       });
     },
   });
+
+  const handleDeleteClick = (cv: CV) => {
+    setCvToDelete(cv);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (cvToDelete) {
+      deleteMutation.mutate(cvToDelete.id);
+    }
+  };
 
   const handleDownloadPDF = async (cv: CV) => {
     try {
@@ -109,7 +125,7 @@ export function Dashboard() {
             <Text type="secondary">Manage and create your professional CVs</Text>
           </div>
           <Button
-            type="primary"
+            type="default"
             icon={<PlusOutlined />}
             onClick={() => setCreateModalOpen(true)}
           >
@@ -142,62 +158,91 @@ export function Dashboard() {
             />
           </Card>
         ) : (
-          <List
-            itemLayout="horizontal"
-            dataSource={cvs}
-            renderItem={(cv) => (
-              <List.Item
-                key={cv.id}
-                actions={[
-                  <Button
-                    key="view"
-                    icon={<EyeOutlined />}
-                    onClick={() => {
-                      setSelectedCV(cv);
-                      setDetailsModalOpen(true);
-                    }}
-                  >
-                    PDF
-                  </Button>,
-                  <Button
-                    key="download"
-                    icon={<DownloadOutlined />}
-                    onClick={() => handleDownloadPDF(cv)}
-                    disabled={cv.status !== 'completed'}
-                  >
-                  </Button>,
-                  <Button
-                    key="delete"
-                    danger
-                    icon={<DeleteOutlined />}
-                    onClick={() => deleteMutation.mutate(cv.id)}
-                  >
-                  </Button>
-                ]}
-              >
-                <List.Item.Meta
-                  title={
-                    <Space align="center">
-                      <Text strong style={{ fontSize: 16 }}>{cv.description}</Text>
-                      {cv.status != "completed" && getStatusTag(cv.status)}
-                    </Space>
-                  }
-                  description={
-                    <Space direction="horizontal" size="small">
-                      <Text type="secondary">
-                        Created on {new Date(cv.created_at).toLocaleDateString()}
-                      </Text>
-                      {cv.error_message && (
-                        <Text type="danger" style={{ padding: 8, backgroundColor: '#fff1f0' }}>
-                          {cv.error_message}
+          <Card
+            style={{
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+              borderRadius: 16,
+              overflow: 'hidden'
+            }}
+          >
+            <List
+              itemLayout="horizontal"
+              dataSource={cvs}
+              renderItem={(cv) => (
+                <List.Item
+                  key={cv.id}
+                  style={{
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    backgroundColor: hoveredCV === cv.id ? '#f5f5f5' : 'transparent',
+                    padding: '16px 24px',
+                    position: 'relative'
+                  }}
+                  onMouseEnter={() => setHoveredCV(cv.id)}
+                  onMouseLeave={() => setHoveredCV(null)}
+                  onClick={() => {
+                    setSelectedCV(cv);
+                    setDetailsModalOpen(true);
+                  }}
+                  actions={[
+                    <Tooltip key="view" title="Details">
+                      <Button
+                        type="text"
+                        icon={<EyeOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedCV(cv);
+                          setDetailsModalOpen(true);
+                        }}
+                        style={{ opacity: hoveredCV === cv.id ? 1 : 0 }}
+                      />
+                    </Tooltip>,
+                    <Tooltip key="download" title="Download PDF">
+                      <Button
+                        type="text"
+                        icon={<DownloadOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownloadPDF(cv);
+                        }}
+                        disabled={cv.status !== 'completed'}
+                        style={{ opacity: hoveredCV === cv.id ? 1 : 0 }}
+                      />
+                    </Tooltip>,
+                    <Tooltip key="delete" title="Delete">
+                      <Button
+                        type="text"
+                        danger
+                        icon={<DeleteOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteClick(cv);
+                        }}
+                        style={{ opacity: hoveredCV === cv.id ? 1 : 0 }}
+                      />
+                    </Tooltip>
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                        <Text strong style={{ fontSize: 16 }}>{cv.description}</Text>
+                        <Text type="secondary" style={{ fontSize: 14, fontWeight: 'normal' }}>
+                          • Created {new Date(cv.created_at).toLocaleDateString()}
                         </Text>
-                      )}
-                    </Space>
-                  }
-                />
-              </List.Item>
-            )}
-          />
+                        {cv.status != "completed" && getStatusTag(cv.status)}
+                        {cv.error_message && (
+                          <Text type="danger" style={{ fontSize: 13 }}>
+                            • {cv.error_message}
+                          </Text>
+                        )}
+                      </div>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </Card>
         )}
       </Space>
 
@@ -226,7 +271,7 @@ export function Dashboard() {
             label="Job Description"
             rules={[{ required: true, message: 'Please input the job description' }]}
           >
-            <Input.TextArea rows={4} placeholder="Paste the job description here" />
+            <Input.TextArea rows={4} placeholder="Paste the job description here" style={{ minHeight: 350 }} />
           </Form.Item>
 
           <Form.Item
@@ -260,6 +305,7 @@ export function Dashboard() {
           setSelectedCV(null);
         }}
         footer={null}
+        width={800}
       >
         {selectedCV && (
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
@@ -282,8 +328,8 @@ export function Dashboard() {
               </div>
             )}
             <div>
-              <Text strong>Status:</Text>
-              <Paragraph>{getStatusTag(selectedCV.status)}</Paragraph>
+              <Text strong>Model:</Text>
+              <Paragraph>{selectedCV.provider} - {selectedCV.model}</Paragraph>
             </div>
             <div>
               <Text strong>Created At:</Text>
@@ -291,6 +337,41 @@ export function Dashboard() {
                 {new Date(selectedCV.created_at).toLocaleDateString()}
               </Paragraph>
             </div>
+          </Space>
+        )}
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Confirm Delete"
+        open={deleteModalOpen}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setCvToDelete(null);
+        }}
+        footer={[
+          <Button key="cancel" onClick={() => {
+            setDeleteModalOpen(false);
+            setCvToDelete(null);
+          }}>
+            Cancel
+          </Button>,
+          <Button
+            key="delete"
+            type="primary"
+            danger
+            loading={deleteMutation.isPending}
+            onClick={handleConfirmDelete}
+          >
+            Delete
+          </Button>
+        ]}
+      >
+        {cvToDelete && (
+          <Space direction="vertical" size="small">
+            <Text>Are you sure you want to delete this CV?</Text>
+            <Text strong>{cvToDelete.description}</Text>
+            <Text type="secondary">This action cannot be undone.</Text>
           </Space>
         )}
       </Modal>

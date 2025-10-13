@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Typography,
-  Card,
   Form,
   Select,
   Button,
@@ -101,82 +100,80 @@ export function Settings() {
   }
 
   return (
-    <div>
-      <Card bordered={false}>
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={(values) => updateMutation.mutate(values)}
-            initialValues={{
-              provider: settings?.provider || '',
-              model: settings?.model || '',
-              api_key: '',
-            }}
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={(values) => updateMutation.mutate(values)}
+      initialValues={{
+        provider: settings?.provider || '',
+        model: settings?.model || '',
+        api_key: '',
+      }}
+    >
+      <Form.Item
+        label="AI Provider"
+        name="provider"
+        rules={[{ required: true, message: 'Please select an AI provider' }]}
+      >
+        <Select
+          options={providers.map((p) => ({ value: p.id, label: p.name }))}
+          onChange={handleProviderChange}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Model"
+        name="model"
+        rules={[{ required: true, message: 'Please select a model' }]}
+      >
+        <Select
+          options={modelOptions}
+          disabled={!form.getFieldValue('provider')}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label={
+          <Space>
+            <Text>API Key</Text>
+            {settings?.has_api_key && (
+              <Space size="small">
+                <Text type="secondary">{settings.api_key_display}</Text>
+                <Tooltip title="Remove API Key">
+                  <Button
+                    type="text"
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => deleteKeyMutation.mutate()}
+                    loading={deleteKeyMutation.isPending}
+                    size="small"
+                  />
+                </Tooltip>
+              </Space>
+            )}
+          </Space>
+        }
+        name="api_key"
+        extra="Leave empty to use default limited key if available"
+      >
+        <Password
+          placeholder={
+            settings?.has_api_key ? 'Leave empty to keep current key' : 'Enter your API key'
+          }
+        />
+      </Form.Item>
+
+      <Form.Item style={{ marginBottom: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={updateMutation.isPending}
           >
-            <Form.Item
-              label="AI Provider"
-              name="provider"
-              rules={[{ required: true, message: 'Please select an AI provider' }]}
-            >
-              <Select
-                options={providers.map((p) => ({ value: p.id, label: p.name }))}
-                onChange={handleProviderChange}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Model"
-              name="model"
-              rules={[{ required: true, message: 'Please select a model' }]}
-            >
-              <Select
-                options={modelOptions}
-                disabled={!form.getFieldValue('provider')}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label={
-                <Space>
-                  <Text>API Key</Text>
-                  {settings?.has_api_key && (
-                    <Space size="small">
-                      <Text type="secondary">{settings.api_key_display}</Text>
-                      <Tooltip title="Remove API Key">
-                        <Button
-                          type="text"
-                          danger
-                          icon={<DeleteOutlined />}
-                          onClick={() => deleteKeyMutation.mutate()}
-                          loading={deleteKeyMutation.isPending}
-                          size="small"
-                        />
-                      </Tooltip>
-                    </Space>
-                  )}
-                </Space>
-              }
-              name="api_key"
-              extra="Leave empty to use default limited key if available"
-            >
-              <Password
-                placeholder={
-                  settings?.has_api_key ? 'Leave empty to keep current key' : 'Enter your API key'
-                }
-              />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={updateMutation.isPending}
-              >
-                Save Settings
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-    </div>
+            Save
+          </Button>
+        </div>
+      </Form.Item>
+    </Form>
   );
 }

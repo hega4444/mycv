@@ -27,6 +27,28 @@ function App() {
         token: {
           colorPrimary: '#1677ff',
           fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial',
+          borderRadius: 12,
+          fontSize: 16,
+          fontSizeLG: 18,
+          fontSizeHeading1: 38,
+          fontSizeHeading2: 30,
+          fontSizeHeading3: 24,
+          fontSizeHeading4: 20,
+          fontSizeHeading5: 16,
+        },
+        components: {
+          Button: {
+            defaultBg: '#434343',
+            defaultColor: '#ffffff',
+            defaultBorderColor: '#434343',
+            borderRadius: 8,
+          },
+          Modal: {
+            borderRadiusLG: 16,
+          },
+          Card: {
+            borderRadiusLG: 16,
+          },
         },
       }}
     >
